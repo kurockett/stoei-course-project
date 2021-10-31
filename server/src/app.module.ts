@@ -6,7 +6,16 @@ import { User } from './users/users.model'
 import { RolesModule } from './roles/roles.module'
 import { Role } from './roles/roles.model'
 import { UserRoles } from './roles/user-roles.model'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
+import { ProjectsModule } from './projects/projects.module'
+import { LabelsModule } from './labels/labels.module'
+import { TasksModule } from './tasks/tasks.module'
+import { Task } from './tasks/tasks.model'
+import { Label } from './labels/labels.model'
+import { Project } from './projects/projects.model'
+import { TaskLabels } from './labels/task-labels.model'
+import { UserTasks } from './users/user-tasks.model'
+import { CategoriesModule } from './categories/categories.module'
 @Module({
     controllers: [],
     providers: [],
@@ -21,12 +30,25 @@ import { AuthModule } from './auth/auth.module';
             username: process.env.POSTGRES_USERNAME,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DATABASE,
-            models: [User, Role, UserRoles],
+            models: [
+                User,
+                Role,
+                UserRoles,
+                Project,
+                Task,
+                Label,
+                TaskLabels,
+                UserTasks,
+            ],
             autoLoadModels: true,
         }),
         UsersModule,
         RolesModule,
         AuthModule,
+        ProjectsModule,
+        LabelsModule,
+        TasksModule,
+        CategoriesModule,
     ],
 })
 export class AppModule {}
