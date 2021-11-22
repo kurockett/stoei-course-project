@@ -1,13 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { Column, DataType, Model, Table } from 'sequelize-typescript'
 
 interface CategoryCreationOptions {
     value: string
 }
 
-@Table({ tableName: 'categories' })
+@Table({ tableName: 'categories', createdAt: false, updatedAt: false })
 export class Category extends Model<Category, CategoryCreationOptions> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -16,7 +14,6 @@ export class Category extends Model<Category, CategoryCreationOptions> {
     })
     id: number
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,

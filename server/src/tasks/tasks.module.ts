@@ -20,5 +20,6 @@ import { CategoryTasks } from './category-tasks.model'
             CategoryTasks,
         ]),
     ],
+    exports: [TasksService],
 })
 export class TasksModule {}

@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
     Column,
     DataType,
@@ -15,9 +14,8 @@ interface LabelCreationOptions {
     projectId: number
 }
 
-@Table({ tableName: 'labels' })
+@Table({ tableName: 'labels', createdAt: false, updatedAt: false })
 export class Label extends Model<Label, LabelCreationOptions> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -26,7 +24,6 @@ export class Label extends Model<Label, LabelCreationOptions> {
     })
     id: number
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,
@@ -34,7 +31,6 @@ export class Label extends Model<Label, LabelCreationOptions> {
     })
     value: string
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,

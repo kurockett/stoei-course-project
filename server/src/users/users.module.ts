@@ -7,6 +7,9 @@ import { User } from './users.model'
 import { UsersService } from './users.service'
 import { RolesModule } from '../roles/roles.module'
 import { AuthModule } from '../auth/auth.module'
+import { UserProjects } from '../projects/user-projects.model'
+import { ProjectsModule } from '../projects/projects.module'
+import { Project } from '../projects/projects.model'
 
 @Module({
     controllers: [UsersController],

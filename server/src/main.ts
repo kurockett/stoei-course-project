@@ -15,6 +15,13 @@ async function start() {
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup('/api/docs', app, document)
     // app.useGlobalGuards(JwtAuthGuard)
+    app.enableCors({
+        origin: true,
+        allowedHeaders:
+            'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+        methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+        credentials: true,
+    })
     await app.listen(PORT, () => {
         console.log(`server started on port ${PORT}`)
     })

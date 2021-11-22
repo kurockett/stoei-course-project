@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
     Column,
     DataType,
@@ -14,9 +13,8 @@ interface RoleCreationOptions {
     description: string
 }
 
-@Table({ tableName: 'roles' })
+@Table({ tableName: 'roles', createdAt: false, updatedAt: false })
 export class Role extends Model<Role, RoleCreationOptions> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -25,7 +23,6 @@ export class Role extends Model<Role, RoleCreationOptions> {
     })
     id: number
 
-    @ApiProperty({ example: 'USER', description: 'Role name' })
     @Column({
         type: DataType.STRING,
         unique: true,
@@ -33,10 +30,6 @@ export class Role extends Model<Role, RoleCreationOptions> {
     })
     value: string
 
-    @ApiProperty({
-        example: `user`,
-        description: 'Role description',
-    })
     @Column({
         type: DataType.STRING,
         allowNull: false,
