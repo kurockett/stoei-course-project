@@ -14,8 +14,10 @@ import { Task } from './tasks/tasks.model'
 import { Label } from './labels/labels.model'
 import { Project } from './projects/projects.model'
 import { TaskLabels } from './labels/task-labels.model'
-import { UserTasks } from './users/user-tasks.model'
 import { CategoriesModule } from './categories/categories.module'
+import { UserProjects } from './projects/user-projects.model'
+import { CategoryTasks } from './tasks/category-tasks.model'
+import { Category } from './categories/categories.model'
 @Module({
     controllers: [],
     providers: [],
@@ -38,7 +40,9 @@ import { CategoriesModule } from './categories/categories.module'
                 Task,
                 Label,
                 TaskLabels,
-                UserTasks,
+                UserProjects,
+                CategoryTasks,
+                Category,
             ],
             autoLoadModels: true,
         }),

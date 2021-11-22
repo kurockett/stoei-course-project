@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
     Column,
     DataType,
@@ -11,7 +10,6 @@ import { User } from './../users/users.model'
 
 @Table({ tableName: 'user_roles', createdAt: false, updatedAt: false })
 export class UserRoles extends Model<UserRoles> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,

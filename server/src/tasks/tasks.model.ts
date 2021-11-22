@@ -17,7 +17,6 @@ interface TaskCreationOptions {
 
 @Table({ tableName: 'tasks' })
 export class Task extends Model<Task, TaskCreationOptions> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -26,7 +25,6 @@ export class Task extends Model<Task, TaskCreationOptions> {
     })
     id: number
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,
@@ -34,17 +32,22 @@ export class Task extends Model<Task, TaskCreationOptions> {
     })
     value: string
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
-        unique: true,
-        allowNull: false,
+        defaultValue: '',
     })
     description: string
 
+    @Column({
+        type: DataType.DOUBLE,
+        allowNull: false,
+        defaultValue: 0,
+    })
+    estimate: number
+
     @ForeignKey(() => Project)
     @Column({
-        type: DataType.STRING,
+        type: DataType.INTEGER,
     })
     projectId: number
 

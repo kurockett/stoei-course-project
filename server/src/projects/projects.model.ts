@@ -1,6 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { HasMany, Column, DataType, Model, Table } from 'sequelize-typescript'
+import {
+    HasMany,
+    Column,
+    DataType,
+    Model,
+    Table,
+    BelongsToMany,
+} from 'sequelize-typescript'
+import { User } from '../users/users.model'
 import { Task } from '../tasks/tasks.model'
+import { UserProjects } from './user-projects.model'
 
 interface ProjectCreationOptions {
     name: string
@@ -9,7 +17,6 @@ interface ProjectCreationOptions {
 
 @Table({ tableName: 'projects' })
 export class Project extends Model<Project, ProjectCreationOptions> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
@@ -18,7 +25,6 @@ export class Project extends Model<Project, ProjectCreationOptions> {
     })
     id: number
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,
@@ -26,13 +32,15 @@ export class Project extends Model<Project, ProjectCreationOptions> {
     })
     name: string
 
-    @ApiProperty({ example: 'user@gmail.com', description: 'user email' })
     @Column({
         type: DataType.STRING,
         unique: true,
         allowNull: false,
     })
     description: string
+
+    @BelongsToMany(() => User, () => UserProjects)
+    asignees: User[]
 
     @HasMany(() => Task)
     tasks: Task[]

@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
     Column,
     DataType,
@@ -11,7 +10,6 @@ import { Category } from '../categories/categories.model'
 
 @Table({ tableName: 'category_tasks', createdAt: false, updatedAt: false })
 export class CategoryTasks extends Model<CategoryTasks> {
-    @ApiProperty({ example: '1', description: 'unique identificator' })
     @Column({
         type: DataType.INTEGER,
         unique: true,
