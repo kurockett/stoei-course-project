@@ -2,49 +2,42 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListSubheader from '@mui/material/ListSubheader'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import PeopleIcon from '@mui/icons-material/People'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import LayersIcon from '@mui/icons-material/Layers'
+import TaskAltIcon from '@mui/icons-material/TaskAlt'
 import AssignmentIcon from '@mui/icons-material/Assignment'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
+import { NavLink } from 'react-router-dom'
 
-export const mainListItems = (
+export const mainAdminListItems = (
     <div>
-        <ListItem button>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
-        </ListItem>
+        <NavLink to={'/users'}>
+            <ListItem>
+                <ListItemIcon>
+                    <PeopleAltIcon />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+            </ListItem>
+        </NavLink>
+        <NavLink to={'/projects'}>
+            <ListItem button>
+                <ListItemIcon>
+                    <AccountTreeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Projects" />
+            </ListItem>
+        </NavLink>
+        <NavLink to={'/tasks'}>
+            <ListItem button>
+                <ListItemIcon>
+                    <TaskAltIcon />
+                </ListItemIcon>
+                <ListItemText primary="Tasks" />
+            </ListItem>
+        </NavLink>
     </div>
 )
 
-export const secondaryListItems = (
+export const secondaryAdminListItems = (
     <div>
         <ListSubheader inset>Saved reports</ListSubheader>
         <ListItem button>

@@ -10,12 +10,14 @@ import { AuthModule } from '../auth/auth.module'
 import { UserProjects } from '../projects/user-projects.model'
 import { ProjectsModule } from '../projects/projects.module'
 import { Project } from '../projects/projects.model'
+import { Task } from '../tasks/tasks.model'
+import { UserTasks } from 'src/tasks/user-tasks.model'
 
 @Module({
     controllers: [UsersController],
     providers: [UsersService],
     imports: [
-        SequelizeModule.forFeature([User, Role, UserRoles]),
+        SequelizeModule.forFeature([User, Role, UserRoles, Task, UserTasks]),
         RolesModule,
         forwardRef(() => AuthModule),
     ],

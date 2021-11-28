@@ -13,7 +13,7 @@ export class UsersService {
 
     public async createUser(dto: CreateUserDto) {
         const user = await this.userRepository.create(dto)
-        const role = await this.roleService.getRoleByValue('ADMIN')
+        const role = await this.roleService.getRoleByValue('USER')
         await user.$set('roles', role.id)
         user.roles = [role]
         return user
@@ -22,6 +22,9 @@ export class UsersService {
     public async getAllUsers() {
         const users = await this.userRepository.findAll({
             include: { all: true },
+            attributes: {
+                exclude: ['password'],
+            },
         })
         return users
     }

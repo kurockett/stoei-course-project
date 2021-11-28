@@ -15,6 +15,9 @@ export const signIn = (form: AuthRequestForm) => {
                 roles: request.data.user.roles,
                 token: request.data.token,
             }
+            localStorage.token = payload.token
+            localStorage.authorized = 'true'
+            localStorage.roles = JSON.stringify(payload.roles)
             dispatch(signInSuccess(payload))
         } catch (e) {
             console.error(e)
@@ -41,3 +44,17 @@ export const signInSuccess = (data: object) => ({
     type: AuthActionTypes.SIGN_IN_SUCCESS,
     payload: data,
 })
+
+export const auth = (token: string | null) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            }
+            const response = await axios.get(`${API_URL}/api/auth`, { headers })
+            console.log(response.data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}

@@ -1,11 +1,11 @@
 import { AuthState, AuthAction, AuthActionTypes } from '../types/authTypes'
 
 const initialState: AuthState = {
-    token: null,
-    roles: localStorage.roles || [],
+    token: localStorage.token,
+    roles: localStorage.roles && (JSON.parse(localStorage.roles) || []),
     message: null,
     error: null,
-    authorized: false,
+    authorized: Boolean(localStorage.authorized),
 }
 
 export const authReducer = (

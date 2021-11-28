@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { ProjectsService } from './projects.service'
 import { Project } from './projects.model'
@@ -38,8 +38,25 @@ export class ProjectsController {
 
     @ApiOperation({ summary: 'Add new asignee in current project' })
     @ApiResponse({ status: 200, type: [Project] })
-    @Post('/new_asignee/:id')
-    public addAsignee(@Param('id') id: number) {
-        return this.projectService.addAsignee(id)
+    @Post('/new_asignee/:id/:user_id')
+    public addAsignee(
+        @Param('id') id: number,
+        @Param('user_id') userId: number
+    ) {
+        return this.projectService.addAsignee(id, userId)
+    }
+
+    @ApiOperation({ summary: 'Remove project' })
+    @ApiResponse({ status: 200, type: [Project] })
+    @Delete(':id')
+    public removeProject(@Param('id') id: number) {
+        return this.projectService.removeProject(id)
+    }
+
+    @ApiOperation({ summary: 'Update project' })
+    @ApiResponse({ status: 200, type: [Project] })
+    @Put(':id')
+    public updateProject(@Param('id') id: number, @Body() form: Project) {
+        return this.projectService.updateProject(id, form)
     }
 }

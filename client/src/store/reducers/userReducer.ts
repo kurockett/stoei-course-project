@@ -1,11 +1,12 @@
-import { AuthState, AuthAction, AuthActionTypes } from '../types/authTypes'
+import { UserState } from '../types/userTypes'
+import { Projects, Tasks, Users } from '../types/mainTypes'
 
-const initialState: AuthState = {
-    token: null,
-    roles: localStorage.roles || [],
-    message: null,
-    error: null,
-    authorized: false,
+const initialState: UserState = {
+    projects: [],
+    currentProject: {} as Projects,
+    currentUser: {} as Users,
+    tasks: [],
+    currentTask: {} as Tasks,
 }
 
 export const userReducer = (state = initialState, action: any): any => {

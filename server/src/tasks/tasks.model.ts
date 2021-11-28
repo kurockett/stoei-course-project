@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
     Column,
     DataType,
@@ -6,8 +5,11 @@ import {
     Table,
     BelongsTo,
     ForeignKey,
+    BelongsToMany,
 } from 'sequelize-typescript'
+import { User } from 'src/users/users.model'
 import { Project } from '../projects/projects.model'
+import { UserTasks } from './user-tasks.model'
 
 interface TaskCreationOptions {
     value: string
@@ -53,4 +55,7 @@ export class Task extends Model<Task, TaskCreationOptions> {
 
     @BelongsTo(() => Project)
     project: Project
+
+    @BelongsToMany(() => User, () => UserTasks)
+    asignees: User[]
 }

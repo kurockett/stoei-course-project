@@ -66,4 +66,17 @@ export class AuthService {
         }
         return user
     }
+
+    public async getUserInfo(req) {
+        const authHeader = req.headers.authorization
+        const { bearer, token } = authHeader.split(' ')
+        if (bearer !== 'Bearer' || !token) {
+            throw new UnauthorizedException({
+                message: 'Пользователь не авторизирован',
+            })
+        }
+        const user = this.jwtService.verify(token)
+        req.user = user
+        return true
+    }
 }

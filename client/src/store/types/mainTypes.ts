@@ -6,13 +6,13 @@ export interface Users {
     updatedAt: string
     roles?: Roles[]
     projects?: Projects[]
+    tasks?: Tasks[]
 }
 
 export interface Roles {
     id: number
     value: string
     description: string
-    UserRoles?: UserRoles[]
     users?: Users[]
 }
 
@@ -26,6 +26,10 @@ export interface Projects {
     id: number
     name: string
     description: string
+    createdAt: string
+    updatedAt: string
+    asignees?: Users[]
+    tasks?: Tasks[]
 }
 
 export interface UserProjects {
@@ -36,10 +40,14 @@ export interface UserProjects {
 
 export interface Tasks {
     id: number
-    name: string
+    value: string
     description: string
     estimate: number
     projectId: number
+    createdAt: string
+    updatedAt: string
+    asignees?: Users[]
+    project?: Projects
 }
 
 export interface UserTasks {

@@ -18,6 +18,7 @@ import { CategoriesModule } from './categories/categories.module'
 import { UserProjects } from './projects/user-projects.model'
 import { CategoryTasks } from './tasks/category-tasks.model'
 import { Category } from './categories/categories.model'
+import { UserTasks } from './tasks/user-tasks.model'
 @Module({
     controllers: [],
     providers: [],
@@ -43,6 +44,7 @@ import { Category } from './categories/categories.model'
                 UserProjects,
                 CategoryTasks,
                 Category,
+                UserTasks,
             ],
             autoLoadModels: true,
         }),

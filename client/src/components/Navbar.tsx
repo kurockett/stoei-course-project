@@ -6,11 +6,9 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import { mainListItems, secondaryListItems } from './ListItems'
+import { mainAdminListItems } from './ListItems'
 import { drawerWidth } from '../config'
 import { Toolbar } from '@mui/material'
 
@@ -112,9 +110,7 @@ const Navbar: React.FC = () => {
                     </IconButton>
                 </Toolbar>
                 <Divider />
-                <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
+                <List>{mainAdminListItems}</List>
             </Drawer>
         </>
     )

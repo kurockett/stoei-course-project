@@ -33,11 +33,31 @@ export class ProjectsService {
         return project
     }
 
-    public async addAsignee(id: number) {
-        const asignee = await this.usersService.getUserById(id)
-        // const project = await this.projectRepository.get
-        return asignee
+    public async addAsignee(id: number, userId: number) {
+        const asignee = await this.usersService.getUserById(userId)
+        const project = await this.projectRepository.findOne({
+            where: { id },
+        })
+        await project.$set('asignees', asignee.id)
+        project.asignees = [asignee]
+        return project
     }
 
     public async addTask(id: number) {}
+
+    public async removeProject(id: number) {
+        await this.projectRepository.destroy({
+            where: { id },
+        })
+        await this.tasksService.removeTasks(id)
+    }
+
+    public async updateProject(id: number, form: Project) {
+        const project = await this.projectRepository.findOne({
+            where: { id },
+        })
+        await project.update(form)
+        await project.save()
+        return project
+    }
 }

@@ -9,6 +9,8 @@ import { Role } from '../roles/roles.model'
 import { UserRoles } from '../roles/user-roles.model'
 import { UserProjects } from '../projects/user-projects.model'
 import { Project } from 'src/projects/projects.model'
+import { Task } from '../tasks/tasks.model'
+import { UserTasks } from '../tasks/user-tasks.model'
 
 interface UserCreationOptions {
     email: string
@@ -43,4 +45,7 @@ export class User extends Model<User, UserCreationOptions> {
 
     @BelongsToMany(() => Project, () => UserProjects)
     projects: Project[]
+
+    @BelongsToMany(() => Task, () => UserTasks)
+    tasks: Task[]
 }
