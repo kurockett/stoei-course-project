@@ -6,13 +6,17 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
-import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
+import DeleteIcon from '@mui/icons-material/Delete'
+import UpgradeIcon from '@mui/icons-material/Upgrade'
 import { visuallyHidden } from '@mui/utils'
+import { Button } from '@mui/material'
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -116,6 +120,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         </TableSortLabel>
                     </TableCell>
                 ))}
+                <TableCell align={'right'}>Delete</TableCell>
+                <TableCell align={'right'}>Update</TableCell>
             </TableRow>
         </TableHead>
     )
@@ -167,14 +173,24 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
 interface IMyTable {
     rows: any[]
+    remove(some: object): void
+    upgrade(some: object): void
 }
 
-const MyTable: React.FC<IMyTable> = ({ rows }) => {
-    const [order, setOrder] = React.useState<Order>('asc')
-    const [orderBy, setOrderBy] = React.useState('calories')
-    const [selected, setSelected] = React.useState<readonly string[]>([])
-    const [page, setPage] = React.useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+const MyTable: React.FC<IMyTable> = ({ rows, upgrade, remove }) => {
+    const [order, setOrder] = useState<Order>('asc')
+    const [orderBy, setOrderBy] = useState('calories')
+    const [selected, setSelected] = useState<readonly string[]>([])
+    const location = useLocation()
+
+    const deleteHandler = (row: object) => {
+        console.log(location.pathname)
+        remove(row)
+    }
+    const upgradeHandler = (row: object) => {
+        console.log(location.pathname)
+        upgrade(row)
+    }
 
     const handleRequestSort = (_: any, property: any) => {
         const isAsc = orderBy === property && order === 'asc'
@@ -193,41 +209,7 @@ const MyTable: React.FC<IMyTable> = ({ rows }) => {
         setSelected([])
     }
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected: readonly string[] = []
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1))
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            )
-        }
-
-        setSelected(newSelected)
-    }
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage)
-    }
-
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setRowsPerPage(parseInt(event.target.value, 10))
-        setPage(0)
-    }
-
     const isSelected = (name: string) => selected.indexOf(name) !== -1
-
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -235,7 +217,7 @@ const MyTable: React.FC<IMyTable> = ({ rows }) => {
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
                     <Table
-                        sx={{ minWidth: 750 }}
+                        sx={{ minWidth: 750, borderColor: 'none' }}
                         aria-labelledby="tableTitle"
                         size={'medium'}
                     >
@@ -249,67 +231,35 @@ const MyTable: React.FC<IMyTable> = ({ rows }) => {
                             rows={rows}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
+                            {stableSort(
+                                rows,
+                                getComparator(order, orderBy)
+                            ).map((row, index) => {
+                                const isItemSelected = isSelected(
+                                    row?.id as string
                                 )
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(
-                                        row?.id as string
-                                    )
-                                    const labelId = `enhanced-table-checkbox-${index}`
+                                const labelId = `enhanced-table-checkbox-${index}`
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) =>
-                                                handleClick(
-                                                    event,
-                                                    row?.id as string
-                                                )
-                                            }
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.id}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell />
-                                            {[...Object.entries(row)]
-                                                .filter(
-                                                    (r) =>
-                                                        !Array.isArray(r[1]) &&
-                                                        typeof r[1] !== 'object'
-                                                )
-                                                .map((r, index) => {
-                                                    if (
-                                                        r[0] === 'createdAt' ||
-                                                        r[0] === 'updatedAt'
-                                                    ) {
-                                                        return index === 0 ? (
-                                                            <TableCell
-                                                                component="th"
-                                                                id={labelId}
-                                                                scope="row"
-                                                                padding="none"
-                                                                key={r[0]}
-                                                            >
-                                                                {new Date(
-                                                                    r[1]
-                                                                ).toDateString()}
-                                                            </TableCell>
-                                                        ) : (
-                                                            <TableCell
-                                                                align="right"
-                                                                key={r[0]}
-                                                            >
-                                                                {new Date(
-                                                                    r[1]
-                                                                ).toDateString()}
-                                                            </TableCell>
-                                                        )
-                                                    }
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        aria-checked={isItemSelected}
+                                        tabIndex={-1}
+                                        key={row.id}
+                                    >
+                                        <TableCell />
+                                        {[...Object.entries(row)]
+                                            .filter(
+                                                (r) =>
+                                                    !Array.isArray(r[1]) &&
+                                                    typeof r[1] !== 'object'
+                                            )
+                                            .map((r, index) => {
+                                                if (
+                                                    r[0] === 'createdAt' ||
+                                                    r[0] === 'updatedAt'
+                                                ) {
                                                     return index === 0 ? (
                                                         <TableCell
                                                             component="th"
@@ -318,41 +268,68 @@ const MyTable: React.FC<IMyTable> = ({ rows }) => {
                                                             padding="none"
                                                             key={r[0]}
                                                         >
-                                                            {r[1]}
+                                                            {new Date(
+                                                                r[1]
+                                                            ).toDateString()}
                                                         </TableCell>
                                                     ) : (
                                                         <TableCell
                                                             align="right"
                                                             key={r[0]}
                                                         >
-                                                            {r[1]}
+                                                            {new Date(
+                                                                r[1]
+                                                            ).toDateString()}
                                                         </TableCell>
                                                     )
-                                                })}
-                                        </TableRow>
-                                    )
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: 53 * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
+                                                }
+                                                return index === 0 ? (
+                                                    <TableCell
+                                                        component="th"
+                                                        id={labelId}
+                                                        scope="row"
+                                                        padding="none"
+                                                        key={r[0]}
+                                                    >
+                                                        {r[1]}
+                                                    </TableCell>
+                                                ) : (
+                                                    <TableCell
+                                                        align="right"
+                                                        key={r[0]}
+                                                    >
+                                                        {r[1]}
+                                                    </TableCell>
+                                                )
+                                            })}
+                                        <TableCell align={'right'}>
+                                            <Button
+                                                onClick={() => {
+                                                    deleteHandler(row)
+                                                }}
+                                                variant="outlined"
+                                                startIcon={<DeleteIcon />}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell align={'right'}>
+                                            <Button
+                                                onClick={() => {
+                                                    upgradeHandler(row)
+                                                }}
+                                                variant="outlined"
+                                                startIcon={<UpgradeIcon />}
+                                            >
+                                                Upgrade
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
             </Paper>
         </Box>
     )

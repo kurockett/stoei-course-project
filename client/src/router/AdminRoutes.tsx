@@ -7,12 +7,18 @@ import AdminPanelPage from '../pages/admin/AdminPanelPage'
 import UsersPage from '../pages/admin/UsersPage'
 import TasksPage from '../pages/admin/TasksPage'
 import ProjectsPage from '../pages/admin/ProjectsPage'
+import UserPage from '../pages/admin/UserPage'
+import TaskPage from '../pages/admin/TaskPage'
+import ProjectPage from '../pages/admin/ProjectPage'
 
 const AdminRoutes: React.FC = () => (
     <Routes>
         <Route path={'/admin'} element={<AdminPanelPage />} />
+        <Route path={'/users/:id'} element={<UserPage />} />
         <Route path={'/users'} element={<UsersPage />} />
+        <Route path={'/tasks/:id'} element={<TaskPage />} />
         <Route path={'/tasks'} element={<TasksPage />} />
+        <Route path={'/projects/:id'} element={<ProjectPage />} />
         <Route path={'/projects'} element={<ProjectsPage />} />
         <Route path={'/sign-up'} element={<SignUpPage />} />
         <Route path={'/sign-in'} element={<SignInPage />} />

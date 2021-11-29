@@ -15,11 +15,13 @@ import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { signIn } from '../store/actions/authActions'
 import { AuthRequestForm } from '../store/types/authTypes'
+import { useNavigate } from 'react-router-dom'
 
 const theme = createTheme()
 
 const SignInPage: React.FC = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
@@ -30,7 +32,7 @@ const SignInPage: React.FC = () => {
         if (!form.email || !form.password) {
             return
         }
-        dispatch(signIn(form as AuthRequestForm))
+        dispatch(signIn(form as AuthRequestForm, navigate))
     }
 
     return (
@@ -92,12 +94,12 @@ const SignInPage: React.FC = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link href="/sign-up" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/sign-up" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

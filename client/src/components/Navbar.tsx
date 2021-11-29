@@ -10,7 +10,11 @@ import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { mainAdminListItems } from './ListItems'
 import { drawerWidth } from '../config'
-import { Toolbar } from '@mui/material'
+import { Badge, Toolbar } from '@mui/material'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import { logout } from '../store/actions/authActions'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -62,8 +66,14 @@ const Drawer = styled(MuiDrawer, {
 
 const Navbar: React.FC = () => {
     const [open, setOpen] = React.useState(true)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const toggleDrawer = () => {
         setOpen(!open)
+    }
+    const logoutHandler = () => {
+        dispatch(logout())
+        navigate('/')
     }
     return (
         <>
@@ -94,6 +104,11 @@ const Navbar: React.FC = () => {
                     >
                         Absolute-It-Solution
                     </Typography>
+                    <IconButton onClick={logoutHandler} color="inherit">
+                        <Badge color="secondary">
+                            <ExitToAppIcon />
+                        </Badge>
+                    </IconButton>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

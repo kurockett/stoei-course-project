@@ -23,6 +23,17 @@ export const setProjects = (data: any) => ({
     payload: data,
 })
 
+export const deleteProject = (id: number) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            await axios.delete(`${API_URL}/api/projects/${id}`)
+            dispatch(getProjects())
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
 export const getUsers = () => {
     return async (dispatch: AppDispatch) => {
         try {
@@ -40,6 +51,17 @@ export const setUsers = (data: any) => ({
     payload: data,
 })
 
+export const deleteUser = (id: number) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            await axios.delete(`${API_URL}/api/users/${id}`)
+            dispatch(getUsers())
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
 export const getTasks = () => {
     return async (dispatch: AppDispatch) => {
         try {
@@ -56,3 +78,14 @@ export const setTasks = (data: any) => ({
     type: AdminActionTypes.SET_TASKS,
     payload: data,
 })
+
+export const deleteTask = (id: number) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            await axios.delete(`${API_URL}/api/tasks/${id}`)
+            dispatch(getTasks())
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}

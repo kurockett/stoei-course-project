@@ -51,6 +51,16 @@ export const authReducer = (
         case AuthActionTypes.RESET_PASSWORD:
             return { ...state }
 
+        case AuthActionTypes.LOGOUT: {
+            return {
+                ...state,
+                token: null,
+                message: null,
+                error: null,
+                authorized: false,
+            }
+        }
+
         default:
             return { ...state }
     }

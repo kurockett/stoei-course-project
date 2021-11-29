@@ -21,6 +21,7 @@ export enum AuthActionTypes {
     SIGN_UP_SUCCESS = 'AUTH/SIGN_UP_SUCCESS',
     SIGN_UP_ERROR = 'AUTH/SIGN_UP_ERROR',
     RESET_PASSWORD = 'AUTH/RESET_PASSWORD',
+    LOGOUT = 'AUTH/LOGOUT',
 }
 
 export interface AuthSignInAction {
@@ -59,6 +60,10 @@ export interface AuthResetPasswordAction {
     payload: any
 }
 
+export interface AuthLogoutAction {
+    type: AuthActionTypes.LOGOUT
+}
+
 export type AuthAction =
     | AuthSignInAction
     | AuthSignInSuccessAction
@@ -67,3 +72,4 @@ export type AuthAction =
     | AuthSignUpSuccessAction
     | AuthSignUpErrorAction
     | AuthResetPasswordAction
+    | AuthLogoutAction

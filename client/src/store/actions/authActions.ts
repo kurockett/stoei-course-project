@@ -3,7 +3,7 @@ import { API_URL } from '../../config'
 import { AppDispatch } from '../store'
 import { AuthActionTypes, AuthRequestForm } from '../types/authTypes'
 
-export const signIn = (form: AuthRequestForm) => {
+export const signIn = (form: AuthRequestForm, navigate: any) => {
     return async (dispatch: any) => {
         try {
             console.log(form)
@@ -19,6 +19,7 @@ export const signIn = (form: AuthRequestForm) => {
             localStorage.authorized = 'true'
             localStorage.roles = JSON.stringify(payload.roles)
             dispatch(signInSuccess(payload))
+            navigate('/projects')
         } catch (e) {
             console.error(e)
         }
@@ -56,5 +57,15 @@ export const auth = (token: string | null) => {
         } catch (e) {
             console.error(e)
         }
+    }
+}
+
+export const logout = () => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            localStorage.removeItem('authorized')
+            localStorage.removeItem('token')
+            dispatch({ type: AuthActionTypes.LOGOUT })
+        } catch (error) {}
     }
 }

@@ -1,12 +1,9 @@
 import { Box, CssBaseline } from '@mui/material'
 import React from 'react'
 import Navbar from '../components/Navbar'
+import { LayoutProps } from './interfaces'
 
-interface AdminLayoutProps {
-    children: React.ReactNode
-}
-
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />

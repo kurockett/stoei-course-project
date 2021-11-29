@@ -1,12 +1,10 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common'
+import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common'
 import { ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './users.model'
 import { UsersService } from './users.service'
-import { Roles } from 'src/auth/roles-auth.decorator'
-import { RolesGuard } from 'src/auth/roles.guard'
 
-@Controller('api/users')
+@Controller('api/users/')
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
@@ -19,10 +17,15 @@ export class UsersController {
 
     @ApiOperation({ summary: 'Get all users from database' })
     @ApiResponse({ status: 200, type: [User] })
-    // @Roles('ADMIN')
-    // @UseGuards(RolesGuard)
     @Get()
     public getAllUsers() {
         return this.usersService.getAllUsers()
+    }
+
+    @ApiOperation({ summary: 'Remove users by id from database' })
+    @ApiResponse({ status: 200, type: [User] })
+    @Delete(':id')
+    public removeUser(@Param('id') id: number) {
+        return this.usersService.removeUser(id)
     }
 }

@@ -13,8 +13,11 @@ export class ProjectsService {
         private tasksService: TasksService
     ) {}
 
-    public async createProject(dto: CreateProjectDto) {
+    public async createProject(dto: CreateProjectDto, id: number) {
         const project = await this.projectRepository.create(dto)
+        const user = await this.usersService.getUserById(id)
+        await project.$set('asignees', user.id)
+        project.asignees = [user]
         return project
     }
 
@@ -43,13 +46,11 @@ export class ProjectsService {
         return project
     }
 
-    public async addTask(id: number) {}
-
     public async removeProject(id: number) {
+        await this.tasksService.removeTasks(id)
         await this.projectRepository.destroy({
             where: { id },
         })
-        await this.tasksService.removeTasks(id)
     }
 
     public async updateProject(id: number, form: Project) {
@@ -59,5 +60,15 @@ export class ProjectsService {
         await project.update(form)
         await project.save()
         return project
+    }
+
+    public async getAllUserProjects(id: number) {
+        const projects = await this.projectRepository.findAll({
+            where: {
+                asignees: { id },
+            },
+            include: { all: true },
+        })
+        return projects
     }
 }
