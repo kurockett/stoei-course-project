@@ -4,7 +4,6 @@ import { TasksController } from './tasks.controller'
 import { TasksService } from './tasks.service'
 import { Task } from './tasks.model'
 import { Project } from '../projects/projects.model'
-import { TaskLabels } from 'src/labels/task-labels.model'
 import { Category } from 'src/categories/categories.model'
 import { CategoryTasks } from './category-tasks.model'
 import { User } from '../users/users.model'
@@ -18,7 +17,6 @@ import { UsersModule } from '../users/users.module'
         SequelizeModule.forFeature([
             Project,
             Task,
-            TaskLabels,
             Category,
             CategoryTasks,
             User,

@@ -13,7 +13,6 @@ import { TasksModule } from './tasks/tasks.module'
 import { Task } from './tasks/tasks.model'
 import { Label } from './labels/labels.model'
 import { Project } from './projects/projects.model'
-import { TaskLabels } from './labels/task-labels.model'
 import { CategoriesModule } from './categories/categories.module'
 import { UserProjects } from './projects/user-projects.model'
 import { CategoryTasks } from './tasks/category-tasks.model'
@@ -40,7 +39,6 @@ import { UserTasks } from './tasks/user-tasks.model'
                 Project,
                 Task,
                 Label,
-                TaskLabels,
                 UserProjects,
                 CategoryTasks,
                 Category,

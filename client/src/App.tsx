@@ -9,7 +9,7 @@ const mdTheme = createTheme()
 const App: React.FC = () => {
     const { authorized, roles } = useTypedSelector((state) => state.auth)
     const route = useRoute(authorized, roles)
-    if (!authorized) {
+    if (!authorized || !roles || roles.length === 0) {
         return <ThemeProvider theme={mdTheme}>{route}</ThemeProvider>
     }
     return (

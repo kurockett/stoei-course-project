@@ -1,4 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript'
+import {
+    Column,
+    DataType,
+    ForeignKey,
+    Model,
+    Table,
+} from 'sequelize-typescript'
+import { Project } from 'src/projects/projects.model'
+import { Task } from '../tasks/tasks.model'
 
 interface CategoryCreationOptions {
     value: string
@@ -16,8 +24,13 @@ export class Category extends Model<Category, CategoryCreationOptions> {
 
     @Column({
         type: DataType.STRING,
-        unique: true,
         allowNull: false,
     })
     value: string
+
+    @ForeignKey(() => Project)
+    @Column({
+        type: DataType.INTEGER,
+    })
+    projectId: number
 }

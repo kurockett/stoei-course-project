@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import MyTable from '../../components/MyTable'
-import { deleteProject, getProjects } from '../../store/actions/adminActions'
+import { deleteProject, getProjects } from '../../store/actions/mainAction'
 import { useTypedSelector } from '../../store/hooks/redux'
 import { Projects } from '../../store/types/mainTypes'
 
@@ -13,7 +13,7 @@ const ProjectsPage: React.FC = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const deleteHandler = (row: Projects) => {
-        dispatch(deleteProject(row?.id))
+        dispatch(deleteProject(row.id!))
     }
     const upgradeHandler = (row: Projects) => {
         navigate(`${location.pathname}/${row?.id}`)

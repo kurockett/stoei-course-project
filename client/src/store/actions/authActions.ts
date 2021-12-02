@@ -2,23 +2,30 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 import { AppDispatch } from '../store'
 import { AuthActionTypes, AuthRequestForm } from '../types/authTypes'
+import { setUsers } from './adminActions'
+import { setUser } from './userActions'
 
 export const signIn = (form: AuthRequestForm, navigate: any) => {
     return async (dispatch: any) => {
         try {
             console.log(form)
-            const request = await axios.post(
+            const response = await axios.post(
                 `${API_URL}/api/auth/sign-in`,
                 form
             )
+            console.log(response)
+
             const payload = {
-                roles: request.data.user.roles,
-                token: request.data.token,
+                roles: response.data.user.roles,
+                token: response.data.token,
             }
             localStorage.token = payload.token
             localStorage.authorized = 'true'
             localStorage.roles = JSON.stringify(payload.roles)
+            localStorage.user = JSON.stringify(response.data.user)
+            // localStorage.roles = JSON.stringify(payload.roles)
             dispatch(signInSuccess(payload))
+            dispatch(setUser(response.data.user))
             navigate('/projects')
         } catch (e) {
             console.error(e)

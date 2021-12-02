@@ -9,5 +9,6 @@ import { CategoryTasks } from '../tasks/category-tasks.model'
     controllers: [CategoriesController],
     providers: [CategoriesService],
     imports: [SequelizeModule.forFeature([Category, CategoryTasks])],
+    exports: [CategoriesService],
 })
 export class CategoriesModule {}

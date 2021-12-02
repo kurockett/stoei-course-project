@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { mainAdminListItems } from './ListItems'
+import { MainAdminListItems } from './ListItems'
 import { drawerWidth } from '../config'
 import { Badge, Toolbar } from '@mui/material'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
@@ -125,7 +125,9 @@ const Navbar: React.FC = () => {
                     </IconButton>
                 </Toolbar>
                 <Divider />
-                <List>{mainAdminListItems}</List>
+                <List>
+                    <MainAdminListItems />
+                </List>
             </Drawer>
         </>
     )

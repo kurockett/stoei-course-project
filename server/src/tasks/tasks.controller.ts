@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreateTaskDto } from './dto/create-tasks.dto'
 import { TasksService } from './tasks.service'
 import { Task } from './tasks.model'
-@Controller('api/tasks/')
+@Controller('api/tasks')
 export class TasksController {
     constructor(private taskService: TasksService) {}
 

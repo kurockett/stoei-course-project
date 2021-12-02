@@ -20,4 +20,11 @@ export class CategoriesService {
         })
         return categories
     }
+
+    public async removeCategories(id: number) {
+        const categories = await this.categoryRepository.destroy({
+            where: { projectId: id },
+        })
+        return categories
+    }
 }

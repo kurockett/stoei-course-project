@@ -9,6 +9,8 @@ import {
 import { User } from '../users/users.model'
 import { Task } from '../tasks/tasks.model'
 import { UserProjects } from './user-projects.model'
+import { Category } from 'src/categories/categories.model'
+import { Label } from '../labels/labels.model'
 
 interface ProjectCreationOptions {
     name: string
@@ -44,4 +46,10 @@ export class Project extends Model<Project, ProjectCreationOptions> {
 
     @HasMany(() => Task)
     tasks: Task[]
+
+    @HasMany(() => Label)
+    labels: Label[]
+
+    @HasMany(() => Category)
+    categories: Category[]
 }

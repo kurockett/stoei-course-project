@@ -6,10 +6,13 @@ import {
     BelongsTo,
     ForeignKey,
     BelongsToMany,
+    HasMany,
+    HasOne,
 } from 'sequelize-typescript'
 import { User } from 'src/users/users.model'
 import { Project } from '../projects/projects.model'
 import { UserTasks } from './user-tasks.model'
+import { Category } from '../categories/categories.model'
 
 interface TaskCreationOptions {
     value: string
@@ -46,6 +49,12 @@ export class Task extends Model<Task, TaskCreationOptions> {
         defaultValue: 0,
     })
     estimate: number
+
+    @Column({
+        type: DataType.STRING,
+        defaultValue: 'In Process',
+    })
+    category: string
 
     @ForeignKey(() => Project)
     @Column({

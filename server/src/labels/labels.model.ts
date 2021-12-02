@@ -24,28 +24,15 @@ export class Label extends Model<Label, LabelCreationOptions> {
     })
     id: number
 
-    @Column({
-        type: DataType.STRING,
-        unique: true,
-        allowNull: false,
-    })
+    @Column({ type: DataType.STRING })
     value: string
 
-    @Column({
-        type: DataType.STRING,
-        unique: true,
-        allowNull: false,
-    })
+    @Column({ type: DataType.STRING })
     color: string
 
     @ForeignKey(() => Project)
     @Column({
         type: DataType.INTEGER,
-        unique: true,
-        allowNull: false,
     })
     projectId: number
-
-    @BelongsTo(() => Project)
-    project: Project
 }

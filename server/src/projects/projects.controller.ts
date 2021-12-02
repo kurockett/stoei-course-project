@@ -4,7 +4,7 @@ import { ProjectsService } from './projects.service'
 import { Project } from './projects.model'
 import { CreateProjectDto } from './dto/create-project.dto'
 
-@Controller('api/projects/')
+@Controller('api/projects')
 export class ProjectsController {
     constructor(private projectService: ProjectsService) {}
 
@@ -27,9 +27,19 @@ export class ProjectsController {
 
     @ApiOperation({ summary: 'Get all projects from database' })
     @ApiResponse({ status: 200, type: [Project] })
-    @Get('/user/:id')
+    @Get('user/:id')
     public getAllUserProjects(@Param('id') id: number) {
         return this.projectService.getAllUserProjects(id)
+    }
+
+    @ApiOperation({ summary: 'Get all sorted projects from database' })
+    @ApiResponse({ status: 200, type: [Project] })
+    @Get('user/:id/ordering=:order_by/')
+    public getAllUserSortedProjects(
+        @Param('id') id: number,
+        @Param('order_by') orderBy: string
+    ) {
+        return this.projectService.getAllUserSortedProjects(id, orderBy)
     }
 
     @ApiOperation({ summary: 'Get project by id' })
@@ -41,7 +51,7 @@ export class ProjectsController {
 
     @ApiOperation({ summary: 'Add new asignee in current project' })
     @ApiResponse({ status: 200, type: [Project] })
-    @Post('/new_asignee/:id/:user_id')
+    @Post('new_asignee/:id/:user_id')
     public addAsignee(
         @Param('id') id: number,
         @Param('user_id') userId: number

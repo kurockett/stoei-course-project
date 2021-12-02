@@ -7,37 +7,45 @@ import AssignmentIcon from '@mui/icons-material/Assignment'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import AccountTreeIcon from '@mui/icons-material/AccountTree'
 import { NavLink } from 'react-router-dom'
+import { useTypedSelector } from '../store/hooks/redux'
 
-export const mainAdminListItems = (
-    <div>
-        <NavLink to={'/users'}>
-            <ListItem>
-                <ListItemIcon>
-                    <PeopleAltIcon />
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-            </ListItem>
-        </NavLink>
-        <NavLink to={'/projects'}>
-            <ListItem button>
-                <ListItemIcon>
-                    <AccountTreeIcon />
-                </ListItemIcon>
-                <ListItemText primary="Projects" />
-            </ListItem>
-        </NavLink>
-        <NavLink to={'/tasks'}>
-            <ListItem button>
-                <ListItemIcon>
-                    <TaskAltIcon />
-                </ListItemIcon>
-                <ListItemText primary="Tasks" />
-            </ListItem>
-        </NavLink>
-    </div>
-)
+export const MainAdminListItems = () => {
+    const { roles } = useTypedSelector((state) => state.auth)
+    return (
+        <div>
+            <NavLink to={'/projects'}>
+                <ListItem button>
+                    <ListItemIcon>
+                        <AccountTreeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Projects" />
+                </ListItem>
+            </NavLink>
+            {roles[0].value === 'ADMIN' && (
+                <>
+                    <NavLink to={'/users'}>
+                        <ListItem>
+                            <ListItemIcon>
+                                <PeopleAltIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Users" />
+                        </ListItem>
+                    </NavLink>
+                    <NavLink to={'/tasks'}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <TaskAltIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Tasks" />
+                        </ListItem>
+                    </NavLink>
+                </>
+            )}
+        </div>
+    )
+}
 
-export const secondaryAdminListItems = (
+export const SecondaryAdminListItems = (
     <div>
         <ListSubheader inset>Saved reports</ListSubheader>
         <ListItem button>

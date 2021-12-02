@@ -8,14 +8,12 @@ export interface Users {
     projects?: Projects[]
     tasks?: Tasks[]
 }
-
 export interface Roles {
     id: number
     value: string
     description: string
     users?: Users[]
 }
-
 export interface UserRoles {
     id: number
     roleId: number
@@ -23,13 +21,14 @@ export interface UserRoles {
 }
 
 export interface Projects {
-    id: number
+    id?: number
     name: string
     description: string
-    createdAt: string
-    updatedAt: string
+    createdAt?: string
+    updatedAt?: string
     asignees?: Users[]
     tasks?: Tasks[]
+    categories?: Categories[]
 }
 
 export interface UserProjects {
@@ -79,3 +78,22 @@ export interface CategoryTasks {
     taskId: number
     categoryId: number
 }
+
+export interface MainState {
+    loading: boolean
+}
+
+export enum MainActionTypes {
+    SHOW_LOADER = 'MAIN/SHOW_LOADER',
+    HIDE_LOADER = 'MAIN/HIDE_LOADER',
+}
+
+export interface MainShowLoaderAction {
+    type: MainActionTypes.SHOW_LOADER
+}
+
+export interface MainHideLoaderAction {
+    type: MainActionTypes.HIDE_LOADER
+}
+
+export type MainAction = MainShowLoaderAction | MainHideLoaderAction

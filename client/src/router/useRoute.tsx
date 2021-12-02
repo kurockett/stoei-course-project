@@ -13,7 +13,8 @@ const useRoute = (authorized: boolean, roles: Roles[]) => {
         ADMIN: <AdminRoutes />,
         USER: <UserRoutes />,
     })
-    if (!authorized || !routes.hasOwnProperty(roles[0].value)) {
+
+    if (!authorized || !roles || roles?.length === 0) {
         return <UnauthorizedRoutes />
     }
     return routes[roles[0].value]

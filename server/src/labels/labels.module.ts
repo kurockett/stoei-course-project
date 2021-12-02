@@ -4,11 +4,11 @@ import { Project } from '../projects/projects.model'
 import { LabelsController } from './labels.controller'
 import { LabelsService } from './labels.service'
 import { Label } from './labels.model'
-import { TaskLabels } from './task-labels.model'
 
 @Module({
     controllers: [LabelsController],
     providers: [LabelsService],
-    imports: [SequelizeModule.forFeature([Project, Label, TaskLabels])],
+    imports: [SequelizeModule.forFeature([Project, Label])],
+    exports: [LabelsService],
 })
 export class LabelsModule {}
