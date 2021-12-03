@@ -22,6 +22,13 @@ export class UsersController {
         return this.usersService.getAllUsers()
     }
 
+    @ApiOperation({ summary: 'Get all users from database with role=user' })
+    @ApiResponse({ status: 200, type: [User] })
+    @Get('/role/user')
+    public getAllUserRoleUsers() {
+        return this.usersService.getAllUserRoleUsers()
+    }
+
     @ApiOperation({ summary: 'Remove users by id from database' })
     @ApiResponse({ status: 200, type: [User] })
     @Delete(':id')

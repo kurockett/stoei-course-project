@@ -5,7 +5,10 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import TaskList from '../../components/user/TaskList'
-import { getProjectById } from '../../store/actions/userActions'
+import {
+    getAllUserRoleUsers,
+    getProjectById,
+} from '../../store/actions/userActions'
 import { useTypedSelector } from '../../store/hooks/redux'
 import { Categories } from '../../store/types/mainTypes'
 
@@ -19,7 +22,8 @@ const ProjectPage: React.FC = () => {
     const { id } = useParams()
     useEffect(() => {
         dispatch(getProjectById(Number(id)))
-    }, [dispatch])
+        dispatch(getAllUserRoleUsers())
+    }, [dispatch, id])
     useEffect(() => {
         if (_.isEmpty(currentProject)) {
             return

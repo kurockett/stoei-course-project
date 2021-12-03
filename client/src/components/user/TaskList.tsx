@@ -1,6 +1,9 @@
-import { List, ListSubheader } from '@mui/material'
-import React from 'react'
+import { Add } from '@mui/icons-material'
+import { IconButton, List, ListSubheader } from '@mui/material'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useTypedSelector } from '../../store/hooks/redux'
+import { Projects, Tasks } from '../../store/types/mainTypes'
 import TaskItem from './TaskItem'
 
 interface TaskProps {
@@ -9,9 +12,24 @@ interface TaskProps {
 
 const TaskList: React.FC<TaskProps> = ({ category }) => {
     const { currentProject } = useTypedSelector((state) => state.user)
-    const tasks = [...currentProject.tasks].filter(
-        (task) => task.category === category
+    const [tasks, setTasks] = useState(
+        [...currentProject.tasks!].filter((task) => task.category === category)
     )
+    const { id } = useParams()
+    const addTaskHandler = () => {
+        let newTask: Tasks = {
+            value: '',
+            description: '',
+            estimate: 0,
+            projectId: Number(id),
+            createdAt: new Date().toString(),
+            updatedAt: new Date().toString(),
+            category,
+            asignees: [],
+            project: {} as Projects,
+        }
+        setTasks(([] as Tasks[]).concat([newTask], tasks))
+    }
     return (
         <List
             sx={{
@@ -33,11 +51,14 @@ const TaskList: React.FC<TaskProps> = ({ category }) => {
                     id="nested-list-subheader"
                 >
                     {category}
+                    <IconButton onClick={addTaskHandler}>
+                        <Add />
+                    </IconButton>
                 </ListSubheader>
             }
         >
             {tasks.map((task) => (
-                <TaskItem task={task} key={task.id} />
+                <TaskItem task={task} key={task.value} />
             ))}
         </List>
     )

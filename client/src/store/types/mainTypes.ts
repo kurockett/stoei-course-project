@@ -38,13 +38,14 @@ export interface UserProjects {
 }
 
 export interface Tasks {
-    id: number
+    id?: number
     value: string
     description: string
     estimate: number
     projectId: number
     createdAt: string
     updatedAt: string
+    category: string
     asignees?: Users[]
     project?: Projects
 }

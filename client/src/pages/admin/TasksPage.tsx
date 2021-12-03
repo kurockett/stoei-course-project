@@ -13,7 +13,7 @@ const TasksPage: React.FC = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const deleteHandler = (row: Tasks) => {
-        dispatch(deleteTask(row?.id))
+        dispatch(deleteTask(row.id!))
     }
     const upgradeHandler = (row: Tasks) => {
         navigate(`${location.pathname}/${row?.id}`)

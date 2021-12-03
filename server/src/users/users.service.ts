@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Project } from 'src/projects/projects.model'
+import { Role } from 'src/roles/roles.model'
 import { RolesService } from '../roles/roles.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './users.model'
+import { UserRoles } from 'src/roles/user-roles.model'
 
 @Injectable()
 export class UsersService {
@@ -23,6 +25,23 @@ export class UsersService {
     public async getAllUsers() {
         const users = await this.userRepository.findAll({
             include: { all: true },
+            attributes: {
+                exclude: ['password'],
+            },
+        })
+        return users
+    }
+
+    public async getAllUserRoleUsers() {
+        const users = await this.userRepository.findAll({
+            include: [
+                {
+                    model: Role,
+                    as: 'roles',
+                    where: { value: 'USER' },
+                    through: { attributes: [] },
+                },
+            ],
             attributes: {
                 exclude: ['password'],
             },

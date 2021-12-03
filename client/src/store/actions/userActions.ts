@@ -2,8 +2,23 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 import { AppDispatch } from '../store'
 import { AdminActionTypes } from '../types/adminTypes'
-import { Projects } from '../types/mainTypes'
+import { Projects, Tasks, Users } from '../types/mainTypes'
 import { hideLoader, setProject, setProjects, showLoader } from './mainAction'
+import { setUsers } from './adminActions'
+
+export const getAllUserRoleUsers = () => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setUsers([]))
+            const { data } = await axios.get<Users[]>(
+                `${API_URL}/api/users/role/user`
+            )
+            dispatch(setUsers(data))
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
 
 export const getUserProjects = (id: number) => {
     return async (dispatch: AppDispatch) => {
@@ -66,3 +81,42 @@ export const setUser = (data: any) => ({
     type: AdminActionTypes.SET_USER,
     payload: data,
 })
+
+export const createTask = (form: Tasks) => {
+    return async () => {
+        try {
+            const { data } = await axios.post<Tasks>(
+                `${API_URL}/api/tasks/`,
+                form
+            )
+            console.log(data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
+export const updateTask = (form: Tasks) => {
+    return async () => {
+        try {
+            const { id, ...body } = form
+            const { data } = await axios.put<Tasks>(
+                `${API_URL}/api/tasks/${id}`,
+                body
+            )
+            console.log(data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
+export const deleteTask = (id: number) => {
+    return async () => {
+        try {
+            await axios.delete<Tasks>(`${API_URL}/api/tasks/${id}`)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}

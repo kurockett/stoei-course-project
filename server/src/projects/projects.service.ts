@@ -63,6 +63,12 @@ export class ProjectsService {
                 {
                     model: Task,
                     as: 'tasks',
+                    include: [
+                        {
+                            model: User,
+                            as: 'asignees',
+                        },
+                    ],
                 },
                 {
                     model: Category,
@@ -76,7 +82,34 @@ export class ProjectsService {
     public async getProjectById(id: number) {
         const project = await this.projectRepository.findOne({
             where: { id },
-            include: { all: true },
+            include: [
+                {
+                    model: User,
+                    as: 'asignees',
+                    attributes: {
+                        exclude: ['password'],
+                    },
+                    through: { attributes: [] },
+                },
+                {
+                    model: Label,
+                    as: 'labels',
+                },
+                {
+                    model: Task,
+                    as: 'tasks',
+                    include: [
+                        {
+                            model: User,
+                            as: 'asignees',
+                        },
+                    ],
+                },
+                {
+                    model: Category,
+                    as: 'categories',
+                },
+            ],
         })
         return project
     }
@@ -128,6 +161,12 @@ export class ProjectsService {
                 {
                     model: Task,
                     as: 'tasks',
+                    include: [
+                        {
+                            model: User,
+                            as: 'asignees',
+                        },
+                    ],
                 },
                 {
                     model: Category,
@@ -173,6 +212,12 @@ export class ProjectsService {
                 {
                     model: Task,
                     as: 'tasks',
+                    include: [
+                        {
+                            model: User,
+                            as: 'asignees',
+                        },
+                    ],
                 },
                 {
                     model: Category,

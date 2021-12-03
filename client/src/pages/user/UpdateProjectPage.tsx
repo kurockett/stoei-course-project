@@ -34,7 +34,7 @@ const UpdateProjectPage: React.FC = () => {
         if (!form.name || !form.description) {
             return
         }
-        dispatch(updateProject(currentProject.id, form as Projects))
+        dispatch(updateProject(currentProject.id!, form as Projects))
     }
     useEffect(() => {
         dispatch(getProjectById(Number(id)))
