@@ -38,7 +38,7 @@ const UpdateProjectPage: React.FC = () => {
     }
     useEffect(() => {
         dispatch(getProjectById(Number(id)))
-    }, [dispatch])
+    }, [dispatch, id])
     if (_.isEmpty(currentProject)) {
         return <Loader />
     }

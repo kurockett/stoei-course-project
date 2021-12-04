@@ -48,8 +48,8 @@ export class TasksService {
         const task = await this.taskRepository.findOne({
             where: { id },
         })
-        await task.$set('asignees', asignee.id)
-        task.asignees = [asignee]
+        await asignee.$set('tasks', task.id)
+        asignee.tasks = [task]
         return task
     }
 
@@ -58,8 +58,8 @@ export class TasksService {
         const task = await this.taskRepository.findOne({
             where: { id },
         })
-        await task.$remove('asignees', asignee.id)
-        task.asignees = [asignee]
+        await asignee.$remove('tasks', task.id)
+        asignee.tasks = [task]
         return task
     }
 

@@ -6,7 +6,12 @@ import thunk from 'redux-thunk'
 
 export const store = createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(logger, thunk))
+    composeWithDevTools(
+        applyMiddleware(
+            // logger,
+            thunk
+        )
+    )
 )
 
 export type RootState = ReturnType<typeof store.getState>

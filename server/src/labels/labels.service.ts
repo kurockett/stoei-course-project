@@ -19,10 +19,10 @@ export class LabelsService {
         return labels
     }
 
-    // public async removeCategories(id: number) {
-    //     const categories = await this.categoryRepository.destroy({
-    //         where: { projectId: id },
-    //     })
-    //     return categories
-    // }
+    public async removeLabels(id: number) {
+        const labels = await this.labelRepository.destroy({
+            where: { projectId: id },
+        })
+        return labels
+    }
 }

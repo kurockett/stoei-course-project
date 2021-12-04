@@ -6,7 +6,6 @@ import {
     Table,
 } from 'sequelize-typescript'
 import { Project } from 'src/projects/projects.model'
-import { Task } from '../tasks/tasks.model'
 
 interface CategoryCreationOptions {
     value: string

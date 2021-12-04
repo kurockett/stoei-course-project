@@ -24,7 +24,7 @@ const ProjectsPage: React.FC = () => {
     }
     useEffect(() => {
         dispatch(getUserProjects(currentUser.id))
-    }, [dispatch])
+    }, [dispatch, currentUser.id])
     if (loading) {
         return <Loader />
     }

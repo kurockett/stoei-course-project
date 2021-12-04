@@ -46,7 +46,7 @@ export interface Tasks {
     createdAt: string
     updatedAt: string
     category: string
-    asignees?: Users[]
+    asignees: Users[]
     project?: Projects
 }
 

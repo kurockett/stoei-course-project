@@ -9,14 +9,12 @@ import {
     ListItem,
     ListItemIcon,
     MenuItem,
-    OutlinedInput,
     Select,
     TextField,
     Theme,
     Tooltip,
-    useTheme,
 } from '@mui/material'
-import { Tasks } from '../../store/types/mainTypes'
+import { Tasks, Users } from '../../store/types/mainTypes'
 import TaskAltTwoToneIcon from '@mui/icons-material/TaskAltTwoTone'
 import ListItemText from '@mui/material/ListItemText'
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone'
@@ -24,13 +22,16 @@ import { Add, ExpandLess, ExpandMore } from '@mui/icons-material'
 import _ from 'lodash'
 import DeleteIcon from '@mui/icons-material/Delete'
 import {
+    createAsignee,
     createTask,
+    deleteAsignee,
     deleteTask,
     getProjectById,
     updateTask,
 } from '../../store/actions/userActions'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { useTypedSelector } from '../../store/hooks/redux'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -60,9 +61,12 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-    const theme = useTheme()
+    const { currentProject } = useTypedSelector((state) => state.user)
     const [open, setOpen] = useState<boolean>(false)
     const [newTask, setNewTask] = useState<Tasks>(_.cloneDeep(task))
+    const [asigneeName, setAsigneeName] = useState<string[]>(
+        [...newTask!.asignees].map((asignee: Users) => asignee.email)
+    )
     const { id } = useParams()
     const dispatch = useDispatch()
     const changed: boolean = !_.isEqual(task, newTask)
@@ -92,7 +96,34 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         dispatch(createTask(newTask))
         dispatch(getProjectById(Number(id)))
     }
-    const asigneeHandler = () => {}
+
+    const addAsigneeHandler = (value: string) => {
+        const asignee = currentProject.asignees.find(
+            (asignee: Users) => asignee.email === value
+        )
+        dispatch(createAsignee(newTask.id!, asignee.id))
+    }
+    const deleteAsigneeHandler = (value: string) => {
+        const asignee = currentProject.asignees.find(
+            (asignee: Users) => asignee.email === value
+        )
+        dispatch(deleteAsignee(newTask.id!, asignee.id))
+    }
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setAsigneeName(() => {
+            const newAsignees = event.target.value as string[]
+            addAsigneeHandler(newAsignees[newAsignees.length - 1])
+            return newAsignees
+        })
+    }
+
+    const handleDelete = (e: React.MouseEvent, value: string) => {
+        e.preventDefault()
+        setAsigneeName((current) => {
+            deleteAsigneeHandler(value)
+            return _.without(current, value)
+        })
+    }
     const handleClick = () => {
         setOpen(!open)
     }
@@ -160,49 +191,47 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
                     </ListItem>
                     <ListItem sx={{ pl: 4 }}>
                         <ListItemText primary={`Чья задача`} />
+                    </ListItem>
+                    <ListItem sx={{ pl: 4 }}>
                         <Select
-                            labelId="demo-multiple-chip-label"
-                            id="demo-multiple-chip"
+                            style={{
+                                width: '100%',
+                            }}
+                            labelId="demo-mutiple-chip-checkbox-label"
+                            id="demo-mutiple-chip-checkbox"
                             multiple
-                            // value={personName}
-                            onChange={asigneeHandler}
-                            input={
-                                <OutlinedInput
-                                    id="select-multiple-chip"
-                                    label="Chip"
-                                />
-                            }
+                            value={asigneeName}
+                            onChange={(event: any) => handleChange(event)}
                             renderValue={(selected) => {
-                                return (
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexWrap: 'wrap',
-                                            gap: 0.5,
-                                        }}
-                                    >
-                                        {/* {selected.map((value) => {
-                                            return (
-                                                <Chip
-                                                    key={value}
-                                                    label={value}
-                                                />
-                                            )
-                                        })} */}
-                                    </Box>
-                                )
+                                return (selected as string[]).map((value) => (
+                                    <Chip
+                                        key={value}
+                                        label={value}
+                                        clickable
+                                        deleteIcon={
+                                            <DeleteIcon
+                                                onMouseDown={(event) =>
+                                                    event.stopPropagation()
+                                                }
+                                            />
+                                        }
+                                        onDelete={(e) => handleDelete(e, value)}
+                                    />
+                                ))
                             }}
                             MenuProps={MenuProps}
                         >
-                            {/* {task.asignees.map((asignee) => (
+                            {currentProject.asignees.map((asignee: Users) => (
                                 <MenuItem
-                                    key={name}
-                                    value={name}
-                                    style={getStyles(name, personName, theme)}
+                                    key={asignee.id}
+                                    value={asignee.email}
+                                    disabled={asigneeName?.includes(
+                                        asignee.email
+                                    )}
                                 >
-                                    {name}
+                                    {asignee.email}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                     </ListItem>
                     <ListItem sx={{ pl: changed ? 31.5 : 37 }}>

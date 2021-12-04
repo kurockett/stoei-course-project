@@ -2,7 +2,6 @@ import axios from 'axios'
 import { API_URL } from '../../config'
 import { AppDispatch } from '../store'
 import { AuthActionTypes, AuthRequestForm } from '../types/authTypes'
-import { setUsers } from './adminActions'
 import { setUser } from './userActions'
 
 export const signIn = (form: AuthRequestForm, navigate: any) => {
@@ -23,12 +22,11 @@ export const signIn = (form: AuthRequestForm, navigate: any) => {
             localStorage.authorized = 'true'
             localStorage.roles = JSON.stringify(payload.roles)
             localStorage.user = JSON.stringify(response.data.user)
-            // localStorage.roles = JSON.stringify(payload.roles)
             dispatch(signInSuccess(payload))
             dispatch(setUser(response.data.user))
             navigate('/projects')
-        } catch (e) {
-            console.error(e)
+        } catch (e: any | object) {
+            alert(e.response.data.message)
         }
     }
 }
@@ -42,8 +40,8 @@ export const signUp = (form: AuthRequestForm) => {
                 form
             )
             console.log(request.data)
-        } catch (e) {
-            console.error(e)
+        } catch (e: any | object) {
+            alert(e.response.data.message)
         }
     }
 }
@@ -61,8 +59,8 @@ export const auth = (token: string | null) => {
             }
             const response = await axios.get(`${API_URL}/api/auth`, { headers })
             console.log(response.data)
-        } catch (e) {
-            console.error(e)
+        } catch (e: any | object) {
+            console.log(e.response.data.message)
         }
     }
 }
@@ -73,6 +71,8 @@ export const logout = () => {
             localStorage.removeItem('authorized')
             localStorage.removeItem('token')
             dispatch({ type: AuthActionTypes.LOGOUT })
-        } catch (error) {}
+        } catch (e: any | object) {
+            console.log(e.response.data.message)
+        }
     }
 }

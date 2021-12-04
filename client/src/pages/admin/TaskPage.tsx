@@ -1,8 +1,6 @@
 import React from 'react'
 
-interface TaskPageProps {}
-
-const TaskPage: React.FC<TaskPageProps> = ({}) => {
+const TaskPage: React.FC = () => {
     return <div></div>
 }
 

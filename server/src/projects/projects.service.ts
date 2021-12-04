@@ -119,13 +119,13 @@ export class ProjectsService {
         const project = await this.projectRepository.findOne({
             where: { id },
         })
-        await project.$set('asignees', asignee.id)
-        project.asignees = [asignee]
+        await asignee.$set('projects', project.id)
+        asignee.projects = [project]
         return project
     }
 
     public async removeProject(id: number) {
-        // await this.labelsService.removeLabels(id)
+        await this.labelsService.removeLabels(id)
         await this.categoriesService.removeCategories(id)
         await this.tasksService.removeTasks(id)
         await this.projectRepository.destroy({

@@ -67,10 +67,7 @@ export const createProject = (id: number, form: Projects) => {
 export const updateProject = (id: number, form: Projects) => {
     return async () => {
         try {
-            const { data } = await axios.put<Projects>(
-                `${API_URL}/api/projects/${id}`,
-                form
-            )
+            await axios.put<Projects>(`${API_URL}/api/projects/${id}`, form)
         } catch (e) {
             console.error(e)
         }
@@ -115,6 +112,32 @@ export const deleteTask = (id: number) => {
     return async () => {
         try {
             await axios.delete<Tasks>(`${API_URL}/api/tasks/${id}`)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
+export const createAsignee = (id: number, userId: number) => {
+    return async () => {
+        try {
+            const { data } = await axios.post<Tasks>(
+                `${API_URL}/api/tasks/new_asignee/${id}/${userId}`
+            )
+            console.log(data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+}
+
+export const deleteAsignee = (id: number, userId: number) => {
+    return async () => {
+        try {
+            const { data } = await axios.delete<Tasks>(
+                `${API_URL}/api/tasks/new_asignee/${id}/${userId}`
+            )
+            console.log(data)
         } catch (e) {
             console.error(e)
         }
