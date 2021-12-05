@@ -17,9 +17,4 @@ export class AuthController {
     public signUp(@Body() userDto: CreateUserDto) {
         return this.authService.signUp(userDto)
     }
-
-    @Get()
-    public getUserInfo(@Req() req) {
-        return this.authService.getUserInfo(req)
-    }
 }
