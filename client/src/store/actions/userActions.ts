@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { API_URL } from '../../config'
 import { AppDispatch } from '../store'
 import { AdminActionTypes } from '../types/adminTypes'
@@ -58,8 +58,8 @@ export const createProject = (id: number, form: Projects) => {
     return async () => {
         try {
             await axios.post<Projects>(`${API_URL}/api/projects/${id}`, form)
-        } catch (e) {
-            console.error(e)
+        } catch (e: any) {
+            alert(e.response.data.message)
         }
     }
 }
@@ -102,8 +102,8 @@ export const updateTask = (form: Tasks) => {
                 body
             )
             console.log(data)
-        } catch (e) {
-            console.error(e)
+        } catch (e: any) {
+            console.error(e.response.data.message)
         }
     }
 }

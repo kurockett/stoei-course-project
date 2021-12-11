@@ -25,6 +25,17 @@ export class ProjectsService {
     ) {}
 
     public async createProject(dto: CreateProjectDto, id: number) {
+        const candidate = await this.projectRepository.findOne({
+            where: {
+                name: dto.name,
+            },
+        })
+        if (candidate) {
+            throw new HttpException(
+                `Такой проект уже существует!`,
+                HttpStatus.BAD_REQUEST
+            )
+        }
         const project = await this.projectRepository.create(dto)
         const user = await this.usersService.getUserById(id)
         await project.$set('asignees', user.id)
